@@ -1,0 +1,39 @@
+import React, { useMemo } from 'react'
+import { Layout, Menu } from 'antd'
+import styles from './style.module.less'
+
+const { Sider } = Layout
+
+function SiderBar(props) {
+  const { color, bgColor, isFold, setIsFold, triggerPosition, logo, slideMenu } = props || {}
+
+  const style = useMemo(() => {
+    return {
+      color: color,
+      background: bgColor
+    }
+  })
+  const fold =
+    triggerPosition === 'bottom'
+      ? {
+          collapsible: true,
+          onCollapse: v => setIsFold(v)
+        }
+      : {}
+  return (
+    <Sider
+      style={style}
+      collapsed={isFold}
+      className={styles['yj-slide']}
+      {...fold}
+    >
+      <div className={styles['yj-logo']}>{isFold ? logo.ellipsis : logo.complete}</div>
+      <Menu
+        mode="inline"
+        {...slideMenu}
+      />
+    </Sider>
+  )
+}
+
+export default SiderBar

@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "target": "es5",
+    "module": "commonjs",
+    "jsx": "react-jsx",
+    "lib": ["es2020", "dom"],
+    "skipLibCheck": true,
+    "removeComments": true,
+    "moduleResolution": "node",
+    "declaration": true,
+    "outDir": "./"
+  },
+  "exclude": ["**/node_modules"]
+}
