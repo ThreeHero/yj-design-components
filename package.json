@@ -4,7 +4,13 @@
   "description": "react components",
   "author": "Threehero",
   "license": "MIT",
-  "main": "dist/es/index.js",
+  "main": "dist/lib/index.js",
+  "module": "dist/es/index.js",
+  "typings": "dist/es/index.d.ts",
+  "repository": "https://github.com/ThreeHero/yj-design-components.git",
+  "sideEffects": [
+    "dist/*, *.less"
+  ],
   "scripts": {
     "start": "dumi dev",
     "build": "father build",

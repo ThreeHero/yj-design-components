@@ -5,6 +5,7 @@ export default defineConfig({
     output: 'dist/es'
   },
   cjs: {
-    output: 'dist/lib'
+    output: 'dist/lib',
+    platform: 'browser'
   }
 })
