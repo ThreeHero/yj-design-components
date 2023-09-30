@@ -47,19 +47,22 @@ function Index(props) {
     rowKey = 'id',
     align = 'center',
     selectable,
-    initParams,
+    initParams = { page: 1, pageSize: 10 },
     ellipsis = true,
     draggable,
     style = {},
+    onPageChange = () => {},
     ...rest
   } = props || {}
 
   const [list, setList] = React.useState([])
+  const [total, setTotal] = React.useState(0)
 
   React.useEffect(() => {
     async function getList() {
-      const { list } = await request(initParams)
-      setList(list)
+      const { list: l, total: t } = await request(initParams)
+      setList(l)
+      setTotal(t)
     }
     getList()
   }, [initParams])
@@ -113,6 +116,15 @@ function Index(props) {
       rowKey={rowKey}
       columns={c}
       dataSource={list}
+      pagination={{
+        current: initParams.page,
+        pageSize: initParams.pageSize,
+        total,
+        showSizeChanger: true,
+        pageSizeOptions: [5, 10, 15, 20],
+        showTotal: total => `共 ${total} 条`,
+        onChange: onPageChange
+      }}
     />
   )
 

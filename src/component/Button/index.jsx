@@ -34,6 +34,10 @@ function Index(props) {
   }
 
   if (modal) {
+    let m = {}
+    if (typeof modal === 'object') {
+      m = modal
+    }
     const controlDisplay = useRef()
     btn = (
       <>
@@ -47,6 +51,7 @@ function Index(props) {
           controlDisplay={controlDisplay}
           items={items}
           onFinish={onClick}
+          {...m}
         />
       </>
     )

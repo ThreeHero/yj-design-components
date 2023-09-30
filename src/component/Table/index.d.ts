@@ -26,4 +26,6 @@ export default interface YJTableProps extends TableProps {
   ellipsis: boolean
   // 是否可拖拽 不建议和序号一起使用
   draggable: boolean
+  initParams: object
+  onPageChange: (page, pageSize) => void
 }
