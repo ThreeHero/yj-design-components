@@ -1,7 +1,7 @@
 {
   "name": "yj-design-components",
-  "version": "1.0.5",
-  "description": "react components",
+  "version": "1.0.6",
+  "description": "React&antd组件库",
   "author": "Threehero",
   "license": "MIT",
   "main": "dist/lib/index.js",
