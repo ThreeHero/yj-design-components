@@ -40,9 +40,11 @@ function Index(props) {
           </Button>
         )}
         {!resetHidden && <Button onClick={reset}>重置</Button>}
-        {extra?.map((item, index) => {
-          return <React.Fragment key={index}>{item}</React.Fragment>
-        })}
+        {Array.isArray(extra) && extra
+          ? extra?.map((item, index) => {
+              return <React.Fragment key={index}>{item}</React.Fragment>
+            })
+          : { extra }}
       </Space>
     </Space>
   )

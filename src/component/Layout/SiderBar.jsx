@@ -5,11 +5,10 @@ import styles from './style.module.less'
 const { Sider } = Layout
 
 function SiderBar(props) {
-  const { color, bgColor, isFold, setIsFold, triggerPosition, logo, slideMenu } = props || {}
+  const { bgColor, isFold, setIsFold, triggerPosition, logo, slideMenu } = props || {}
 
   const style = useMemo(() => {
     return {
-      color: color,
       background: bgColor
     }
   })

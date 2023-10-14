@@ -3,7 +3,7 @@ title: 表格
 order: 4
 ---
 
-# Table 表格操作
+# Table 表格
 
 ```jsx
 /**

@@ -11,7 +11,8 @@ function HeaderBar(props) {
   const style = useMemo(() => {
     return {
       color: color,
-      background: bgColor
+      background: bgColor,
+      opacity: 0.95
     }
   })
   return (

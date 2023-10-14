@@ -7,6 +7,7 @@ interface seralType {
 }
 
 export default interface YJTableProps extends TableProps {
+  bordered: boolean
   // 表格列
   columns: TableColumnsType[]
   // 数据 需要返回list

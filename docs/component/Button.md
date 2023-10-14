@@ -86,7 +86,7 @@ export default Index
 | 参数    |          说明          |                                             类型                                             | 默认值  |
 | :------ | :--------------------: | :------------------------------------------------------------------------------------------: | :-----: |
 | confirm | 是否需要弹出二次提示框 | [PopconfirmProps](https://ant-design.antgroup.com/components/popconfirm-cn#api) \| `boolean` | `false` |
-| modal   |          弹窗          |                                          `boolean`                                           |         |
+| modal   |          弹窗          |                                         `ModalProps`                                         |         |
 | items   |  配置表单项与回显数据  |                                  [ItemsProps](#ItemsProps)                                   |  `{}`   |
 | onClick |        点击事件        |                                `(event: MouseEvent) => void`                                 |         |
 

@@ -22,6 +22,7 @@ function Index(props) {
       element: {
         type: 'input',
         className: styles['login-ipt'],
+        onPressEnter: login,
         placeholder: '请输入用户名',
         bordered: false,
         prefix: <UserOutlined className="login-icon" />
@@ -36,6 +37,7 @@ function Index(props) {
         className: styles['login-ipt'],
         placeholder: '请输入密码',
         bordered: false,
+        onPressEnter: login,
         prefix: <LockOutlined className="login-icon" />
       }
     },

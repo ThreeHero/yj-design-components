@@ -1,9 +1,9 @@
-import React, { useRef } from 'react'
+import { useRef } from 'react'
 import { Button, Popconfirm } from 'antd'
 import Modal from '../Modal'
 
 function Index(props) {
-  const { confirm, onClick, children, modal, items, ...rest } = props || {}
+  const { onClick, children, confirm, modal, items, ...rest } = props || {}
 
   let btn = (
     <Button
@@ -18,7 +18,7 @@ function Index(props) {
     let options =
       typeof confirm === 'boolean'
         ? {
-            title: '确定删除',
+            title: '确定删除？',
             okText: '确定',
             cancelText: '取消'
           }
@@ -49,9 +49,9 @@ function Index(props) {
         </Button>
         <Modal
           controlDisplay={controlDisplay}
-          items={items}
           onFinish={onClick}
           {...m}
+          items={items}
         />
       </>
     )

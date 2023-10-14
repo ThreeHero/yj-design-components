@@ -1,10 +1,10 @@
-import React from 'react'
 import { Table, Tooltip } from 'antd'
-
+import { useState, useEffect, useMemo } from 'react'
 import { DndContext, PointerSensor, useSensor, useSensors } from '@dnd-kit/core'
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers'
 import { SortableContext, arrayMove, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
+import { formatDate } from '../utils/tools'
 
 const Row = props => {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
@@ -39,15 +39,15 @@ const Row = props => {
 }
 
 function Index(props) {
-  // todo 拖拽
   const {
+    bordered = true,
     columns = [],
     request,
     seral,
     rowKey = 'id',
     align = 'center',
     selectable,
-    initParams = { page: 1, pageSize: 10 },
+    initParams,
     ellipsis = true,
     draggable,
     style = {},
@@ -55,20 +55,36 @@ function Index(props) {
     ...rest
   } = props || {}
 
-  const [list, setList] = React.useState([])
-  const [total, setTotal] = React.useState(0)
+  const [list, setList] = useState([])
+  const [total, setTotal] = useState(0)
+  const [loading, setLoading] = useState(false)
 
-  React.useEffect(() => {
-    async function getList() {
-      const { list: l, total: t } = await request(initParams)
-      setList(l)
-      setTotal(t)
+  // 请求参数
+  const requestParams = useMemo(() => {
+    return {
+      page: 1,
+      pageSize: 10,
+      ...(initParams || {})
     }
-    getList()
   }, [initParams])
 
+  // 初始请求数据
+  useEffect(() => {
+    async function getList() {
+      setLoading(true)
+      try {
+        const { list: l, total: t } = (await request(requestParams)) || {}
+        setList(l)
+        setTotal(t)
+      } finally {
+        setLoading(false)
+      }
+    }
+    getList()
+  }, [requestParams])
+
   // 整理列
-  const c = React.useMemo(() => {
+  const c = useMemo(() => {
     // 序号列
     if (seral) {
       columns.unshift({
@@ -105,26 +121,57 @@ function Index(props) {
         }
       : {}
     // 操作列
-    return columns.map(item => ({ ...e, ...item, align }))
+    return columns.map(item => {
+      let r = {}
+
+      if (item.formatDate) {
+        const format = typeof item.formatDate === 'string' ? item.formatDate : undefined
+        r.render = t => (
+          <Tooltip
+            placement="topLeft"
+            title={formatDate(t, format)}
+          >
+            {formatDate(t, format)}
+          </Tooltip>
+        )
+      }
+      return {
+        ...e,
+        ...item,
+        align,
+        title: item.title || item.label || item.text,
+        dataIndex: item.dataIndex || item.name || item.value,
+        ...r
+      }
+    })
   }, [columns, align, seral, ellipsis])
 
   let table = (
     <Table
+      bordered={bordered}
       style={{ userSelect: 'none', ...style }}
+      pagination={{
+        current: requestParams.page,
+        pageSize: requestParams.pageSize,
+        total,
+        showSizeChanger: true,
+        pageSizeOptions: [
+          requestParams.pageSize * 1,
+          requestParams.pageSize * 2,
+          requestParams.pageSize * 3,
+          requestParams.pageSize * 4
+        ],
+        showTotal: total => `共 ${total} 条`,
+        onChange: (page, pageSize) => {
+          onPageChange?.({ ...requestParams, page, pageSize })
+        }
+      }}
       {...rest}
       rowSelection={selectable}
       rowKey={rowKey}
       columns={c}
       dataSource={list}
-      pagination={{
-        current: initParams.page,
-        pageSize: initParams.pageSize,
-        total,
-        showSizeChanger: true,
-        pageSizeOptions: [5, 10, 15, 20],
-        showTotal: total => `共 ${total} 条`,
-        onChange: onPageChange
-      }}
+      loading={loading}
     />
   )
 
@@ -157,12 +204,15 @@ function Index(props) {
           strategy={verticalListSortingStrategy}
         >
           <Table
+            bordered={bordered}
             style={{ userSelect: 'none', ...style }}
             {...rest}
             rowSelection={selectable}
+            pagination={false}
             rowKey={rowKey}
             columns={c}
             dataSource={list}
+            loading={loading}
             components={{
               body: {
                 row: Row

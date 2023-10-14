@@ -94,8 +94,28 @@ const Index = () => {
         }
       },
       {
+        value: 'switch',
+        label: '开关',
+        element: {
+          type: 'switch'
+        }
+      },
+      {
+        value: 'upload',
+        label: '上传',
+        valuePropName: 'fileList',
+        getValueFromEvent: e => {
+          if (Array.isArray(e)) return e
+          return e && e.fileList
+        },
+        element: {
+          type: 'upload',
+          children: <div>{form.getFieldValue('upload') ? form.getFieldValue('upload')?.file?.name : '上传文件'}</div>
+        }
+      },
+      {
         name: 'button',
-        label: '按钮',
+        text: '按钮',
         element: {
           type: 'button',
           children: '按钮',

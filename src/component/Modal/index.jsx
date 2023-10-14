@@ -1,8 +1,9 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback } from 'react'
 import { Modal, Drawer, message, Space, Button } from 'antd'
 import Form from '../Form'
 
 function Index(props) {
+  // isM 是弹窗还是抽屉 isForm 是表单弹窗 controlDisplay ref对象 items包含r和data的对象
   const { controlDisplay, isM = true, isForm = true, title, onFinish = () => {}, items = {}, ...rest } = props || {}
   const [form] = Form.useForm()
   controlDisplay.current = useState(false)
@@ -10,7 +11,7 @@ function Index(props) {
   let ComponentModal = isM ? Modal : Drawer
 
   // 非表单弹窗时 显示的标题
-  const t = isForm ? (items.r ? '编辑' : '新增') : title
+  const t = title || (isForm && (items.r ? '编辑' : '新增'))
 
   const onOK = useCallback(async () => {
     // 区分是否为表单弹窗

@@ -1,16 +1,40 @@
-import React from 'react'
-import { Form, Input, Select, InputNumber, TimePicker, DatePicker, ColorPicker, Space, Button } from 'antd'
+import {
+  Form,
+  Input,
+  Select,
+  Checkbox,
+  Radio,
+  Rate,
+  Slider,
+  InputNumber,
+  TimePicker,
+  DatePicker,
+  ColorPicker,
+  Space,
+  Button,
+  Upload
+} from 'antd'
+import Switch from './Switch'
+// import Upload from './Upload'
 
 const FormItem = {
   input: Input,
   password: Input.Password,
   textarea: Input.TextArea,
+  search: Input.Search,
+  checkout: Checkbox.Group,
+  radio: Radio.Group,
+  color: ColorPicker,
+  rate: Rate,
+  switch: Switch,
+  slider: Slider,
   number: InputNumber,
   select: Select,
-  time: TimePicker,
   date: DatePicker,
   dateRange: DatePicker.RangePicker,
-  color: ColorPicker,
+  time: TimePicker,
+  timeRange: TimePicker.RangePicker,
+  upload: Upload,
   button: Button
 }
 
@@ -18,6 +42,7 @@ const FormItem = {
 function createFormItem(element) {
   const { type, ...rest } = element || {}
   const Component = FormItem[type]
+
   return <Component {...rest} />
 }
 
@@ -40,6 +65,8 @@ function Index(props) {
               <Item
                 key={item.name || index}
                 {...r}
+                label={item.title || item.label || item.text}
+                name={item.name || item.value || item.dataIndex}
               >
                 {isEle ? element : createFormItem(element)}
               </Item>
@@ -51,10 +78,15 @@ function Index(props) {
         items?.map((item, index) => {
           const { element = { type: 'input' }, ...r } = item || {}
           const isEle = React.isValidElement(element)
+          const title = item.text || item.label || item.title
+          const name = item.name || item.value || item.dataIndex
+
           const i = (
             <Item
               key={item.name || index}
               {...r}
+              label={title}
+              name={name}
             >
               {isEle ? element : createFormItem(element)}
             </Item>
@@ -70,4 +102,6 @@ function Index(props) {
 }
 
 Index.useForm = Form.useForm
+Index.Item = Form.Item
+Index.List = Form.List
 export default Index

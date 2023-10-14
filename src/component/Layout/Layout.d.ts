@@ -12,7 +12,7 @@ export default interface YJLayoutProps {
   headerLeftContent?: React.ReactNode
   // 头部右侧的内容
   headerRightContent?: React.ReactNode
-  // logo 折叠的logo(2个字) 和 完整的logo(6个字)
+  // logo 折叠的logo 和 完整的logo
   logo?: {
     complete: string
     ellipsis: string
