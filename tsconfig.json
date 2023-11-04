@@ -4,11 +4,13 @@
     "target": "es5",
     "module": "commonjs",
     "allowJs": true,
+    "checkJs": true,
     "jsx": "react-jsx",
     "lib": ["es2020", "dom"],
     "skipLibCheck": true,
     "removeComments": true,
     "moduleResolution": "node",
+    "esModuleInterop": true,
     "declaration": true,
     "outDir": "./"
   },

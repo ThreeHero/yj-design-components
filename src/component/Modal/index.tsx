@@ -1,10 +1,11 @@
-import { useState, useCallback } from 'react'
+import React, { useState, useCallback } from 'react'
 import { Modal, Drawer, message, Space, Button } from 'antd'
 import Form from '../Form'
+import type YJModalProps from './ModalProps'
 
-function Index(props) {
+const Index: React.FC<YJModalProps> = (props) => {
   // isM 是弹窗还是抽屉 isForm 是表单弹窗 controlDisplay ref对象 items包含r和data的对象
-  const { controlDisplay, isM = true, isForm = true, title, onFinish = () => {}, items = {}, ...rest } = props || {}
+  const { controlDisplay, isM = true, isForm = true, title, onFinish = () => { }, items = { r: null, data: [] }, ...rest } = props || {}
   const [form] = Form.useForm()
   controlDisplay.current = useState(false)
   const o = controlDisplay.current

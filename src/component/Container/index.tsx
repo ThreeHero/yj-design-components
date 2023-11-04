@@ -5,7 +5,9 @@ import HeaderBar from './HeaderBar'
 import ContentBox from './ContentBox'
 import FooterBar from './FooterBar'
 
-function Index(props) {
+import type YJContainerProps from './ContainerProps';
+
+const Index: React.FC<YJContainerProps> = (props) => {
   const {
     logo = <div>模板</div>, // 头部左侧logo展示
     headerBgColor = '#fff', // 头部背景色不能用主题色 使用次级主题色

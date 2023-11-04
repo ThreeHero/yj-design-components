@@ -5,7 +5,9 @@ import Sider from './SiderBar'
 import Header from './HeaderBar'
 import Content from './ContentBox'
 
-function Index(props) {
+import type YJLayoutProps from './LayoutProps'
+
+const Index: React.FC<YJLayoutProps> = (props) => {
   const {
     bgColor = '#fff',
     color = '#000',

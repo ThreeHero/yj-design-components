@@ -1,9 +1,10 @@
 import { Descriptions, Spin } from 'antd'
 import React, { useEffect, useMemo, useState } from 'react'
 import { findLabelByValue, ObjectIsNull } from '../utils/tools'
+import type YJDescProps from './DescProps'
 
-function Index(props) {
-  const { bordered = true, getData = () => {}, params, titleMap, map, addOther = () => {}, ...rest } = props || {}
+const Index: React.FC<YJDescProps> = (props) => {
+  const { bordered = true, getData = () => { }, params, titleMap, map, addOther = () => { }, ...rest } = props || {}
 
   const [data, setData] = useState({})
   const [loading, setLoading] = useState(false)

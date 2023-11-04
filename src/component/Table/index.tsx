@@ -1,10 +1,11 @@
 import { Table, Tooltip } from 'antd'
-import { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { DndContext, PointerSensor, useSensor, useSensors } from '@dnd-kit/core'
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers'
 import { SortableContext, arrayMove, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { formatDate } from '../utils/tools'
+import type YJTableProps from './TableProps'
 
 const Row = props => {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
@@ -22,9 +23,9 @@ const Row = props => {
     cursor: 'move',
     ...(isDragging
       ? {
-          position: 'relative',
-          zIndex: 9999
-        }
+        position: 'relative',
+        zIndex: 9999
+      }
       : {})
   }
   return (
@@ -38,7 +39,7 @@ const Row = props => {
   )
 }
 
-function Index(props) {
+const Index: React.FC<YJTableProps> = (props) => {
   const {
     bordered = true,
     columns = [],
@@ -51,7 +52,7 @@ function Index(props) {
     ellipsis = true,
     draggable,
     style = {},
-    onPageChange = () => {},
+    onPageChange = () => { },
     ...rest
   } = props || {}
 
@@ -105,20 +106,20 @@ function Index(props) {
     // 超出隐藏
     const e = ellipsis
       ? {
-          ellipsis: {
-            showTitle: false
-          },
-          render(t) {
-            return (
-              <Tooltip
-                placement="topLeft"
-                title={t}
-              >
-                {t}
-              </Tooltip>
-            )
-          }
+        ellipsis: {
+          showTitle: false
+        },
+        render(t) {
+          return (
+            <Tooltip
+              placement="topLeft"
+              title={t}
+            >
+              {t}
+            </Tooltip>
+          )
         }
+      }
       : {}
     // 操作列
     return columns.map(item => {

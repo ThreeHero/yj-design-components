@@ -1,10 +1,11 @@
 import React from 'react'
 import styles from './style.module.less'
-import { Form } from '../..'
+import Form from '../Form'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import './style.less'
+import type YJLoginProp from './LoginProps';
 
-function Index(props) {
+const Index: React.FC<YJLoginProp> = (props) => {
   const { onLogin, background, style, className } = props || {}
   const [form] = Form.useForm()
 

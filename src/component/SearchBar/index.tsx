@@ -1,9 +1,10 @@
 import React, { useCallback } from 'react'
 import { Form } from '../..'
 import { Space, Button } from 'antd'
+import type YJSearchBarProps from './SearchBarProps'
 
-function Index(props) {
-  const { items, setInitParams = () => {}, extra, searchHidden, resetHidden } = props || {}
+const Index: React.FC<YJSearchBarProps> = (props) => {
+  const { items, setInitParams = () => { }, extra, searchHidden, resetHidden } = props || {}
   const [form] = Form.useForm()
 
   const reset = useCallback(() => {
@@ -42,9 +43,9 @@ function Index(props) {
         {!resetHidden && <Button onClick={reset}>重置</Button>}
         {Array.isArray(extra) && extra
           ? extra?.map((item, index) => {
-              return <React.Fragment key={index}>{item}</React.Fragment>
-            })
-          : { extra }}
+            return <React.Fragment key={index}>{item}</React.Fragment>
+          })
+          : extra}
       </Space>
     </Space>
   )

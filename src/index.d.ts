@@ -1,21 +1,21 @@
-export { default as Button } from './component/Button'
+export { default as ButtonProps } from './component/Button/ButtonProps'
 
-export { default as Table } from './component/Table'
+export { default as TableProps } from './component/Table/TableProps'
 
-export { default as Layout } from './component/Layout'
+export { default as LayoutProps } from './component/Layout/LayoutProps'
 
-export { default as Form } from './component/Form'
+export { default as FormProps } from './component/Form/FormProps'
 
-export { default as SearchBar } from './component/SearchBar'
+export { default as SearchBarProps } from './component/SearchBar/SearchBarProps'
 
-export { default as Modal } from './component/Modal'
+export { default as ModalProps } from './component/Modal/ModalProps'
 
-export { default as Login } from './component/Login'
+export { default as LoginProps } from './component/Login/LoginProps'
 
-export { default as Desc } from './component/Desc'
+export { default as DescProps } from './component/Desc/DescProps'
 
-export { default as List } from './component/List'
+export { default as ListProps } from './component/List/ListProps'
 
-export { default as App } from './component/App'
+export { default as AppProps } from './component/App/AppProps'
 
-export { default as Container } from './component/Container'
+export { default as ContainerProps } from './component/Container/ContainerProps'

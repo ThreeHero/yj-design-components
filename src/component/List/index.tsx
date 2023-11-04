@@ -1,15 +1,19 @@
 import React, { useMemo } from 'react'
 import { List } from 'antd'
 import { useState, useEffect } from 'react'
+import type YJListProps from './ListProps'
 
-function Index(props) {
+const Index: React.FC<YJListProps> & {
+  Meta: any
+  Item: any
+} = (props) => {
   const {
     bordered = true,
     rowKey = 'id',
-    render = () => {},
+    render = () => { },
     request,
     initParams,
-    onPageChange = () => {},
+    onPageChange = () => { },
     ...rest
   } = props || {}
 

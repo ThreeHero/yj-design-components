@@ -16,6 +16,8 @@ import {
 } from 'antd'
 import Switch from './Switch'
 // import Upload from './Upload'
+import type YJFormProps from './FormProps'
+import React from 'react'
 
 const FormItem = {
   input: Input,
@@ -39,7 +41,7 @@ const FormItem = {
 }
 
 // 渲染Item
-function createFormItem(element) {
+function createFormItem(element: any) {
   const { type, ...rest } = element || {}
   const Component = FormItem[type]
 
@@ -47,7 +49,12 @@ function createFormItem(element) {
 }
 
 const { Item } = Form
-function Index(props) {
+
+const Index: React.FC<YJFormProps> & {
+  useForm: any,
+  List: any,
+  Item: any
+} = (props) => {
   const { items, form, children, layout, ...rest } = props || {}
   let YjForm = (
     <Form
@@ -101,7 +108,12 @@ function Index(props) {
   return YjForm
 }
 
+
+
+
 Index.useForm = Form.useForm
 Index.Item = Form.Item
 Index.List = Form.List
+
+
 export default Index

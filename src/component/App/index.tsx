@@ -1,9 +1,12 @@
 import React from 'react'
 import { ConfigProvider } from 'antd'
 import zhCN from 'antd/locale/zh_CN'
+import type YJAppProps from './AppProps'
 
-function Index(props) {
+const Index: React.FC<YJAppProps> = (props) => {
+
   const { children, token, language = zhCN, ...rest } = props || {}
+  
   return (
     <ConfigProvider
       {...rest}

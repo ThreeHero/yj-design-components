@@ -1,5 +1,5 @@
-import React = require('react')
-import { ItemType } from 'antd/lib'
+import React from 'react'
+import { MenuItemType } from 'antd/es/menu/hooks/useItems'
 
 export default interface YJLayoutProps {
   // 背景色
@@ -19,7 +19,8 @@ export default interface YJLayoutProps {
   }
   // 侧边菜单
   slideMenu: {
-    items: ItemType[]
+    items: MenuItemType[]
     onClick: ({ item, key, keyPath, domEvent }) => any
   }
+  children: React.ReactNode
 }

@@ -11,9 +11,10 @@ export default interface YJTableProps extends TableProps {
   // 表格列
   columns: TableColumnsType[]
   // 数据 需要返回list
-  request: () => Promise<{ list: any[] }> | { list: any[] }
+  request: () => Promise<{ list: any[]; total: number }> | { list: any[]; total: number }
   // 显示序号
   seral?: boolean | seralType
+  style?: any
   // 每行的唯一标识
   rowKey: string
   // 对其方式

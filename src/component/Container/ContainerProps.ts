@@ -1,5 +1,4 @@
-import { ItemType } from 'antd/lib'
-import React = require('react')
+import React from 'react'
 
 export default interface YJContainerProps {
   // 头部左上角的logo (点击事件 回到首页)
@@ -12,4 +11,10 @@ export default interface YJContainerProps {
   headerMenu: React.ReactDOM
   // 是否展示Footer
   isFooter?: boolean
+
+  headerClass: string
+  contentClass: string
+  footerClass: string
+  children: React.ReactNode
+  footerContent: React.ReactNode
 }

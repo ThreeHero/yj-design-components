@@ -8,7 +8,7 @@ interface ItemsProps {
   data: any
 }
 
-export default interface YJButtonProps extends ButtonProps {
+export default interface YJButtonProps extends Omit<ButtonProps, 'onClick'> {
   // 二次确认
   confirm?: PopconfirmProps | boolean
   // 弹窗
@@ -16,5 +16,5 @@ export default interface YJButtonProps extends ButtonProps {
   // 配置表单项与回显数据
   items?: ItemsProps
   // 点击最终确认事件
-  onClick?: (event: MouseEvent) => void
+  onClick?: (e: any) => any
 }
