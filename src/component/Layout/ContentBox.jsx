@@ -9,7 +9,7 @@ function ContentBox(props) {
   return (
     <Content className={styles['yj-content']}>
       {/* 面包屑 */}
-      <div className={styles['yj-container']}>{children}</div>
+      <div className={styles['yj-box']}>{children}</div>
     </Content>
   )
 }

@@ -1,0 +1,28 @@
+YJ 组件库
+
+- v1.0.5
+  初始组件内容
+
+  - 按钮 Button
+  - 表格 Table
+  - 布局 Layout  (左右(上下)布局)
+  - 表单 Form
+  - 搜索条 SearchBar
+  - 弹窗 Modal
+  - 登录页 Login
+
+- v1.0.6
+
+  - 新增 包裹组件 App 定制主题
+  - 新增 列表组件 List
+  - 新增 描述列表组件 Desc
+  - 修改 Form 组件新增 开关
+  - 修改 Modal 可以设置标题
+  - 修复 搜索条操作区域 bug
+  - 修改 Table 带有边框
+  - 增强 Table 和 Form 的 title 和 label
+  - 修改 Table 的分页功能和初始化参数
+
+- v1.0.7
+
+  - 新增 布局组件 Container (上中下布局) 
