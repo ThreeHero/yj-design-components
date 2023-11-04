@@ -126,15 +126,15 @@ const Index: React.FC<YJTableProps> = (props) => {
       let r = {}
 
       if (item.formatDate) {
-        const format = typeof item.formatDate === 'string' ? item.formatDate : undefined
-        r.render = t => (
-          <Tooltip
-            placement="topLeft"
-            title={formatDate(t, format)}
-          >
-            {formatDate(t, format)}
-          </Tooltip>
-        )
+        const format = typeof item.formatDate === 'string' ? item.formatDate : (void 0 as any)
+          (r as any).render = t => (
+            <Tooltip
+              placement="topLeft"
+              title={formatDate(t, format)}
+            >
+              {formatDate(t, format)}
+            </Tooltip>
+          )
       }
       return {
         ...e,

@@ -10,7 +10,7 @@ const Index: React.FC<YJListProps> & {
   const {
     bordered = true,
     rowKey = 'id',
-    render = () => { },
+    render,
     request,
     initParams,
     onPageChange = () => { },
@@ -66,7 +66,7 @@ const Index: React.FC<YJListProps> & {
       rowKey={rowKey}
       dataSource={list}
       loading={loading}
-      renderItem={item => render?.(item)}
+      renderItem={item => render(item)}
     />
   )
 

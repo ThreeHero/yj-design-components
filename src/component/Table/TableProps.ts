@@ -1,4 +1,4 @@
-import { TableProps, TableColumnsType } from 'antd/lib'
+import { TableProps } from 'antd/lib'
 import React from 'react'
 
 interface seralType {
@@ -6,28 +6,24 @@ interface seralType {
   width: number
 }
 
-export default interface YJTableProps extends TableProps {
+export default interface YJTableProps {
   bordered: boolean
   // 表格列
-  columns: TableColumnsType[]
+  columns: any[]
   // 数据 需要返回list
-  request: () => Promise<{ list: any[]; total: number }> | { list: any[]; total: number }
+  request: (params) => Promise<{ list: any[]; total: number }> | { list: any[]; total: number }
   // 显示序号
-  seral?: boolean | seralType
+  seral?: any
   style?: any
   // 每行的唯一标识
   rowKey: string
   // 对其方式
   align?: 'left' | 'right' | 'center'
   // 是否可选中
-  selectable:
-    | boolean
-    | {
-        onChange: (selectedRowKeys, selectedRows, info) => any
-      }
+  selectable: any
   ellipsis: boolean
   // 是否可拖拽 不建议和序号一起使用
   draggable: boolean
   initParams: object
-  onPageChange: (page, pageSize) => void
+  onPageChange: ({ page, pageSize }) => void
 }
