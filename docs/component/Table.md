@@ -44,13 +44,42 @@ const Index = () => {
   }
   return (
     <Table
+      search={{
+        form: {
+          items: [
+            {
+              label: '姓名',
+              name: 'name'
+            },
+            {
+              label: '姓名',
+              name: 'name'
+            },
+            {
+              label: '姓名',
+              name: 'name'
+            },
+            {
+              label: '性别',
+              name: 'gender',
+              options: [
+                {
+                  label: '男',
+                  value: 1
+                },
+                {
+                  label: '女',
+                  value: 2
+                }
+              ]
+            }
+          ]
+        }
+      }}
       seral
       rowKey="id"
       bordered
       request={request}
-      selectable={{ onChange: (_, data) => console.log(data) }}
-      initParams={{ page: 1 }}
-      draggable
       columns={columns}
     />
   )

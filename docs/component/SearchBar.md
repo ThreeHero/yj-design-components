@@ -32,14 +32,39 @@ const items = [
         { value: 2, label: '女' }
       ]
     }
+  },
+  {
+    name: 'gender',
+    label: '性别',
+    element: {
+      type: 'select',
+      placeholder: '请选择',
+      options: [
+        { value: 1, label: '男' },
+        { value: 2, label: '女' }
+      ]
+    }
+  },
+  {
+    name: 'gender',
+    label: '性别',
+    element: {
+      type: 'select',
+      placeholder: '请选择',
+      options: [
+        { value: 1, label: '男' },
+        { value: 2, label: '女' }
+      ]
+    }
   }
 ]
 
 const Index = () => {
   return (
     <SearchBar
-      extra={[<Button>新增</Button>]}
-      items={items}
+      form={{ items: items, span: 2 }}
+      extra={[<Button.Add>新增</Button.Add>]}
+      extraIndex="middle"
     />
   )
 }

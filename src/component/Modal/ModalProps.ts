@@ -9,15 +9,13 @@ interface ItemsProps {
 
 export default interface YJModalProps {
   // 用于控制显示与隐藏的ref
-  controlDisplay: any
+  isShow: any
   // 判断是弹窗还是抽屉
   isM?: boolean
   // 是否需要表单弹窗
-  isForm?: boolean
+  form?: any
   // 非表单弹窗时的标题
   title?: string | React.ReactNode
-  // 配置表单项与回显数据
-  items?: ItemsProps
   // 完成时候的事件
   onFinish?: (values?: any) => any
 }

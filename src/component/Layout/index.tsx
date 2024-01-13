@@ -16,7 +16,8 @@ const Index: React.FC<YJLayoutProps> = (props) => {
     headerLeftContent,
     headerRightContent,
     logo = { ellipsis: '后台', complete: '后台管理系统' },
-    slideMenu
+    slideMenu,
+    ...rest
   } = props || {}
   // 是否折叠
   const [isFold, setIsFold] = useState(false)
@@ -31,7 +32,7 @@ const Index: React.FC<YJLayoutProps> = (props) => {
   }, [])
 
   return (
-    <Layout className={styles['yj-layout']}>
+    <Layout className={styles['yj-layout']} {...rest}>
       <Sider
         {...params}
         isFold={isFold}

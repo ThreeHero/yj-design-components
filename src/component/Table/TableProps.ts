@@ -10,6 +10,8 @@ export default interface YJTableProps {
   bordered: boolean
   // 表格列
   columns: any[]
+  // 搜索条
+  search: any
   // 数据 需要返回list
   request: (params) => Promise<{ list: any[]; total: number }> | { list: any[]; total: number }
   // 显示序号

@@ -30,3 +30,17 @@ YJ 组件库
 - v1.0.8  
 
   - 小范围修改为ts
+
+
+- v1.0.9
+
+  - 按钮组件新增气泡弹窗
+  - 按钮新增图标
+  - 表单组件优化 内联样式可以传每行几个
+  - 搜索条优化 新增search参数 样式调整
+  - 弹窗组件优化 使用 isShow管理(ref)
+  - 修改Layout content 的大小(全屏)
+  - 新增富文本编辑器 并挂在到Form上
+  - 表格内嵌搜索条 参数 form 自定义 其中的 items initialValues form(实例)
+  - 整体表单组件大换血 之前的items弃用 更改为 在 form属性中传入items (除了Form组件)
+  - 新增 upload组件挂在form上 upload含有Image 只用来上传图片 含有属性 avatar 和 isCircle

@@ -5,3 +5,6 @@ src/.umi
 dist
 docs-dist
 .npmignore
+.DS_Store
+yarn.lock
+package-lock.json

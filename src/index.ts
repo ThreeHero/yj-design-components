@@ -1,4 +1,4 @@
-export { default as Button } from './component/Button'
+export { default as Button } from './component/Button/export'
 
 export { default as Table } from './component/Table'
 

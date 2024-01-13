@@ -4,48 +4,55 @@ import Form from '../Form'
 import type YJModalProps from './ModalProps'
 
 const Index: React.FC<YJModalProps> = (props) => {
-  // isM 是弹窗还是抽屉 isForm 是表单弹窗 controlDisplay ref对象 items包含r和data的对象
-  const { controlDisplay, isM = true, isForm = true, title, onFinish = () => { }, items = { r: null, data: [] }, ...rest } = props || {}
-  const [form] = Form.useForm()
-  controlDisplay.current = useState(false)
-  const o = controlDisplay.current
-  let ComponentModal = isM ? Modal : Drawer
+  // isM 是弹窗还是抽屉 isForm 是表单弹窗 isShow ref对象 items包含r和data的对象
+  const {
+    isShow,
+    isM = true,
+    form,
+    title,
+    onFinish = () => { },
+    ...rest
+  } = props || {}
+
+  const [YjForm] = Form.useForm()
+  isShow.current = useState(false)
+  const show = isShow.current
+  const ComponentModal = isM ? Modal : Drawer
 
   // 非表单弹窗时 显示的标题
-  const t = title || (isForm && (items.r ? '编辑' : '新增'))
+  const t = title || (form && (form?.items?.initialValues ? '编辑' : '新增'))
 
   const onOK = useCallback(async () => {
     // 区分是否为表单弹窗
-    if (isForm) {
+    if (form) {
       // 进行表单校验
       try {
-        const values = await form.validateFields()
+        const values = await YjForm.validateFields()
         await onFinish(values)
-        o[1](false)
+        show[1](false)
       } catch {
         message.error('请按照规则填写')
       }
     } else {
       await onFinish()
     }
-  }, [isForm, onFinish])
+  }, [form, onFinish])
 
   let modal = (
     <ComponentModal
-      {...rest}
       title={t}
-      open={o[0]}
+      open={show[0]}
       destroyOnClose
       closeIcon={!isM}
       cancelText="取消"
       okText="完成"
-      onCancel={() => o[1](false)}
-      onClose={() => o[1](false)}
-      zIndex={99999999999}
+      onCancel={() => show[1](false)}
+      onClose={() => show[1](false)}
+      // zIndex={200}
       onOk={onOK}
       extra={
         <Space>
-          <Button onClick={() => o[1](false)}>取消</Button>
+          <Button onClick={() => show[1](false)}>取消</Button>
           <Button
             onClick={onOK}
             type="primary"
@@ -54,13 +61,14 @@ const Index: React.FC<YJModalProps> = (props) => {
           </Button>
         </Space>
       }
+      {...rest}
+
     >
-      {isForm && (
+      {form && (
         <Form
-          form={form}
-          items={items.data}
-          initialValues={items.r}
+          form={YjForm}
           preserve={false}
+          {...(form || {})}
         />
       )}
     </ComponentModal>

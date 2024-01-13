@@ -1,45 +1,10 @@
 import { Table, Tooltip } from 'antd'
-import React, { useState, useEffect, useMemo } from 'react'
-import { DndContext, PointerSensor, useSensor, useSensors } from '@dnd-kit/core'
-import { restrictToVerticalAxis } from '@dnd-kit/modifiers'
-import { SortableContext, arrayMove, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable'
-import { CSS } from '@dnd-kit/utilities'
+import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import { formatDate } from '../utils/tools'
+import { SearchBar, Form } from '../..'
 import type YJTableProps from './TableProps'
 
-const Row = props => {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
-    id: props['data-row-key']
-  })
-  const style = {
-    ...props.style,
-    transform: CSS.Transform.toString(
-      transform && {
-        ...transform,
-        scaleY: 1
-      }
-    ),
-    transition,
-    cursor: 'move',
-    ...(isDragging
-      ? {
-        position: 'relative',
-        zIndex: 9999
-      }
-      : {})
-  }
-  return (
-    <tr
-      {...props}
-      ref={setNodeRef}
-      style={style}
-      {...attributes}
-      {...listeners}
-    />
-  )
-}
-
-const Index: React.FC<YJTableProps> = (props) => {
+const Index: React.FC<YJTableProps> = props => {
   const {
     bordered = true,
     columns = [],
@@ -47,12 +12,9 @@ const Index: React.FC<YJTableProps> = (props) => {
     seral,
     rowKey = 'id',
     align = 'center',
-    selectable,
-    initParams,
     ellipsis = true,
-    draggable,
     style = {},
-    onPageChange = () => { },
+    search,
     ...rest
   } = props || {}
 
@@ -60,29 +22,38 @@ const Index: React.FC<YJTableProps> = (props) => {
   const [total, setTotal] = useState(0)
   const [loading, setLoading] = useState(false)
 
-  // 请求参数
-  const requestParams = useMemo(() => {
-    return {
-      page: 1,
-      pageSize: 10,
-      ...(initParams || {})
-    }
-  }, [initParams])
+  const [page, setPage] = useState(1)
+  const [pageSize, setPageSize] = useState(10)
 
-  // 初始请求数据
-  useEffect(() => {
-    async function getList() {
+  // 处理好的请求
+  const getList = useCallback(
+    async (params: any = {}) => {
       setLoading(true)
       try {
-        const { list: l, total: t } = (await request(requestParams)) || {}
+        const data = {
+          page,
+          pageSize,
+          ...params
+        }
+        const { list: l, total: t } = await request(data)
         setList(l)
         setTotal(t)
       } finally {
         setLoading(false)
       }
-    }
+    },
+    [page, pageSize]
+  )
+
+  // 重新加载
+  const reSearch = useCallback((params: any) => {
+    getList(params)
+  }, [])
+
+  // 初始请求数据
+  useEffect(() => {
     getList()
-  }, [requestParams])
+  }, [])
 
   // 整理列
   const c = useMemo(() => {
@@ -91,26 +62,23 @@ const Index: React.FC<YJTableProps> = (props) => {
       columns.unshift({
         title: seral.title ?? '序号',
         width: seral.width ?? 100,
-        render(t, r, i) {
-          return (
-            <Tooltip
-              placement="topLeft"
-              title={i + 1}
-            >
-              {i + 1}
-            </Tooltip>
-          )
-        }
+        render: (t, r, i: number) => (
+          <Tooltip
+            placement="top"
+            title={i + 1}
+          >
+            {i + 1}
+          </Tooltip>
+        )
       })
     }
     // 超出隐藏
     const e = ellipsis
       ? {
-        ellipsis: {
-          showTitle: false
-        },
-        render(t) {
-          return (
+          ellipsis: {
+            showTitle: false
+          },
+          render: t => (
             <Tooltip
               placement="topLeft"
               title={t}
@@ -119,22 +87,23 @@ const Index: React.FC<YJTableProps> = (props) => {
             </Tooltip>
           )
         }
-      }
       : {}
     // 操作列
     return columns.map(item => {
       let r = {}
 
       if (item.formatDate) {
-        const format = typeof item.formatDate === 'string' ? item.formatDate : (void 0 as any)
-          (r as any).render = t => (
-            <Tooltip
-              placement="topLeft"
-              title={formatDate(t, format)}
-            >
-              {formatDate(t, format)}
-            </Tooltip>
-          )
+        const format =
+          typeof item.formatDate === 'string'
+            ? item.formatDate
+            : ((void 0 as any)(r as any).render = t => (
+                <Tooltip
+                  placement="topLeft"
+                  title={formatDate(t, format)}
+                >
+                  {formatDate(t, format)}
+                </Tooltip>
+              ))
       }
       return {
         ...e,
@@ -151,79 +120,60 @@ const Index: React.FC<YJTableProps> = (props) => {
     <Table
       bordered={bordered}
       style={{ userSelect: 'none', ...style }}
-      pagination={{
-        current: requestParams.page,
-        pageSize: requestParams.pageSize,
-        total,
-        showSizeChanger: true,
-        pageSizeOptions: [
-          requestParams.pageSize * 1,
-          requestParams.pageSize * 2,
-          requestParams.pageSize * 3,
-          requestParams.pageSize * 4
-        ],
-        showTotal: total => `共 ${total} 条`,
-        onChange: (page, pageSize) => {
-          onPageChange?.({ ...requestParams, page, pageSize })
-        }
-      }}
-      {...rest}
-      rowSelection={selectable}
       rowKey={rowKey}
       columns={c}
       dataSource={list}
       loading={loading}
+      pagination={{
+        current: page,
+        pageSize: pageSize,
+        total,
+        showSizeChanger: true,
+        showTotal: total => `共 ${total} 条`,
+        onChange: (page, pageSize) => {
+          setPage(page)
+          setPageSize(pageSize)
+        }
+      }}
+      {...rest}
     />
   )
 
-  if (draggable) {
-    const sensors = useSensors(
-      useSensor(PointerSensor, {
-        activationConstraint: {
-          distance: 1
-        }
-      })
-    )
-    const onDragEnd = ({ active, over }) => {
-      if (active.id !== over?.id) {
-        setList(prev => {
-          const activeIndex = prev.findIndex(i => i[rowKey] === active.id)
-          const overIndex = prev.findIndex(i => i[rowKey] === over?.id)
-          return arrayMove(prev, activeIndex, overIndex)
-        })
-      }
-    }
-    table = (
-      <DndContext
-        sensors={sensors}
-        modifiers={[restrictToVerticalAxis]}
-        onDragEnd={onDragEnd}
-      >
-        <SortableContext
-          // rowKey array
-          items={list.map(i => i[rowKey])}
-          strategy={verticalListSortingStrategy}
-        >
-          <Table
-            bordered={bordered}
-            style={{ userSelect: 'none', ...style }}
-            {...rest}
-            rowSelection={selectable}
-            pagination={false}
-            rowKey={rowKey}
-            columns={c}
-            dataSource={list}
-            loading={loading}
-            components={{
-              body: {
-                row: Row
-              }
-            }}
-          />
-        </SortableContext>
-      </DndContext>
+  if (search) {
+    const [form] = Form.useForm()
+    return (
+      <>
+        <SearchBar
+          style={{ marginBottom: 20 }}
+          {...search}
+          search={reSearch}
+          f={form}
+        />
+        <Table
+          bordered={bordered}
+          style={{ userSelect: 'none', ...style }}
+          rowKey={rowKey}
+          columns={c}
+          dataSource={list}
+          loading={loading}
+          pagination={{
+            current: page,
+            pageSize: pageSize,
+            total,
+            showSizeChanger: true,
+            showTotal: total => `共 ${total} 条`,
+            onChange: (page, pageSize) => {
+              setPage(page)
+              setPageSize(pageSize)
+              reSearch(form.getFieldsValue())
+            }
+          }}
+          {...rest}
+        />
+      </>
     )
   }
+
   return table
 }
 

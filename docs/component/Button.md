@@ -20,13 +20,13 @@ import React from 'react'
 
 const Index = () => {
   return (
-    <Button
+    <Button.Delete
       confirm
       onClick={e => console.log(e)}
       type="primary"
     >
       气泡选择按钮
-    </Button>
+    </Button.Delete>
   )
 }
 
@@ -69,7 +69,7 @@ const items = {
 const Index = () => {
   return (
     <Button
-      modal
+      modal={{ items: items.data, initialValues: items.r }}
       onClick={v => console.log(v)}
       type="link"
       items={items}

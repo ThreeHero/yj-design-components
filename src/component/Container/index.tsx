@@ -18,10 +18,11 @@ const Index: React.FC<YJContainerProps> = (props) => {
     contentClass = 'YJ_CONTENT',
     isFooter = true, // 是否隐藏底部
     footerClass = 'YJ_FOOTER',
-    footerContent
+    footerContent,
+    ...rest
   } = props || {}
   return (
-    <Layout className={styles['yj-container']}>
+    <Layout className={styles['yj-container']} {...rest}>
       <HeaderBar
         headerClass={headerClass}
         logo={logo}

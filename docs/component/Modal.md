@@ -26,18 +26,7 @@ const data = [
 ]
 const Index = () => {
   const modalRef = React.useRef()
-  const items = React.useMemo(() => {
-    return {
-      r: {
-        id: 1,
-        name: '张三',
-        gender: 0,
-        age: 18,
-        createTime: new Date()
-      },
-      data: data
-    }
-  }, [])
+
   return (
     <>
       <Button
@@ -48,9 +37,18 @@ const Index = () => {
         编辑弹窗
       </Button>
       <Modal
-        controlDisplay={modalRef}
+        isShow={modalRef}
         onFinish={v => console.log(v)}
-        items={items}
+        form={{
+          items: data,
+          initialValues: {
+            id: 1,
+            name: '张三',
+            gender: 0,
+            age: 18,
+            createTime: new Date()
+          }
+        }}
       />
     </>
   )
@@ -63,24 +61,21 @@ export default Index
 import React from 'react'
 import { Button, Modal } from 'yj-design-components'
 
-const items = {
-  r: null,
-  data: [
-    { label: '姓名', name: 'name', element: { type: 'input' } },
-    {
-      label: '性别',
-      name: 'gender',
-      element: {
-        type: 'select',
-        options: [
-          { value: 0, label: '未知' },
-          { value: 1, label: '男' },
-          { value: 2, label: '女' }
-        ]
-      }
+const items = [
+  { label: '姓名', name: 'name', element: { type: 'input' } },
+  {
+    label: '性别',
+    name: 'gender',
+    element: {
+      type: 'select',
+      options: [
+        { value: 0, label: '未知' },
+        { value: 1, label: '男' },
+        { value: 2, label: '女' }
+      ]
     }
-  ]
-}
+  }
+]
 
 const Index = () => {
   const modalRef = React.useRef()
@@ -94,8 +89,11 @@ const Index = () => {
         新增弹窗
       </Button>
       <Modal
-        controlDisplay={modalRef}
+        isShow={modalRef}
         onFinish={v => console.log(v)}
+        form={{
+          items
+        }}
         items={items}
       />
     </>

@@ -103,14 +103,10 @@ const Index = () => {
       {
         value: 'upload',
         label: '上传',
-        valuePropName: 'fileList',
-        getValueFromEvent: e => {
-          if (Array.isArray(e)) return e
-          return e && e.fileList
-        },
         element: {
           type: 'upload',
-          children: <div>{form.getFieldValue('upload') ? form.getFieldValue('upload')?.file?.name : '上传文件'}</div>
+          action: 'http://127.0.0.1:9000/upload',
+          prefixPath: 'http://127.0.0.1:9000'
         }
       },
       {
@@ -123,6 +119,24 @@ const Index = () => {
             console.log(form.getFieldsValue())
           }
         }
+      },
+      {
+        value: 'uploadImg',
+        label: '上传图片',
+        element: {
+          type: 'uploadImg',
+          avatar: true,
+          action: 'http://127.0.0.1:9000/upload',
+          prefixPath: 'http://127.0.0.1:9000'
+        }
+      },
+      {
+        name: 'editor',
+        text: '编辑器',
+        element: {
+          type: 'editor'
+          // placeholder: '输入'
+        }
       }
     ]
   }, [])
@@ -130,6 +144,7 @@ const Index = () => {
     <Form
       form={form}
       items={items}
+      span={3}
     />
   )
 }

@@ -1,53 +1,64 @@
 import React, { useCallback } from 'react'
-import { Form } from '../..'
-import { Space, Button } from 'antd'
+import { Form, Button } from '../..'
+import { Space, Row, Col } from 'antd'
 import type YJSearchBarProps from './SearchBarProps'
 
 const Index: React.FC<YJSearchBarProps> = (props) => {
-  const { items, setInitParams = () => { }, extra, searchHidden, resetHidden } = props || {}
-  const [form] = Form.useForm()
+  const { f, form, search, extra, extraIndex = 'after', searchButton, resetButton, style, className } = props || {}
+  const [yjForm] = Form.useForm()
+  const formInstance = f ?? yjForm
+
+  const YjSearch = useCallback(() => {
+    const flied = formInstance.getFieldsValue()
+    search(flied)
+  }, [search, formInstance])
 
   const reset = useCallback(() => {
-    form.resetFields()
-    search()
-  }, [])
+    formInstance.resetFields()
+    YjSearch()
+  }, [YjSearch, formInstance])
 
-  const search = useCallback(() => {
-    const flied = form.getFieldsValue()
-    setInitParams(flied)
-  }, [])
+  let ext = null
+
+  if (React.isValidElement(extra)) {
+    ext = extra
+  } else if (Array.isArray(extra)) {
+    ext = extra.map((item, index) => <React.Fragment key={index}>{item}</React.Fragment>)
+  }
 
   return (
-    <Space
-      align="baseline"
-      style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        marginBottom: 20
-      }}
-    >
-      <Form
-        form={form}
-        layout="inline"
-        items={items}
-      />
-      <Space>
-        {!searchHidden && (
-          <Button
-            type="primary"
-            onClick={search}
-          >
-            搜索
-          </Button>
-        )}
-        {!resetHidden && <Button onClick={reset}>重置</Button>}
-        {Array.isArray(extra) && extra
-          ? extra?.map((item, index) => {
-            return <React.Fragment key={index}>{item}</React.Fragment>
-          })
-          : extra}
-      </Space>
-    </Space>
+    <Row style={style} className={className}>
+      <Col flex="auto">
+        <Form
+          form={formInstance}
+          {...form}
+          layout="inline"
+          style={{ ...(form?.style || {}), display: 'block' }}
+        />
+      </Col>
+      <Col>
+        <Space>
+          {extraIndex === 'before' && ext}
+          {!searchButton?.hidden && (
+            <Button.Search
+              type="primary"
+              children="搜索"
+              {...searchButton || {}}
+              onClick={YjSearch}
+            />
+          )}
+          {extraIndex === 'middle' && ext}
+          {!resetButton?.hidden && (
+            <Button.Reload
+              children="重置"
+              {...resetButton || {}}
+              onClick={reset}
+            />
+          )}
+          {extraIndex === 'after' && ext}
+        </Space>
+      </Col>
+    </Row>
   )
 }
 
