@@ -1,6 +1,6 @@
 {
   "name": "yj-design-components",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "React&antd组件库",
   "author": "Threehero",
   "license": "MIT",
@@ -15,7 +15,8 @@
     "start": "dumi dev",
     "build": "father build",
     "docs:build": "dumi build",
-    "prettier": "prettier --write \"**/*.{js,jsx,tsx,ts,less,md,json}\""
+    "prettier": "prettier --write \"**/*.{js,jsx,tsx,ts,less,md,json}\"",
+    "publish": "npm publish"
   },
   "dependencies": {
     "@ant-design/icons": "^5.2.6",

@@ -110,10 +110,12 @@ const Index: React.FC<YJFormProps> & {
                 type: 'input'
               }
             }
-            const i = (
-              <Col span={Math.floor(24 / span)}>
+            return (
+              <Col
+                span={Math.floor(24 / span)}
+                key={item.name || item.value || item.dataIndex || index}
+              >
                 <Item
-                  key={item.name || index}
                   {...r}
                   label={item.title || item.label || item.text}
                   name={item.name || item.value || item.dataIndex}
@@ -122,7 +124,6 @@ const Index: React.FC<YJFormProps> & {
                 </Item>
               </Col>
             )
-            return i
           })}
         </Row>
       ) : (
@@ -143,7 +144,7 @@ const Index: React.FC<YJFormProps> & {
             }
           }
 
-          const i = (
+          return (
             <Item
               key={item.name || index}
               {...r}
@@ -153,7 +154,6 @@ const Index: React.FC<YJFormProps> & {
               {isEle ? element : createFormItem(element ?? ele)}
             </Item>
           )
-          return i
         })
       )}
       {!items && children}

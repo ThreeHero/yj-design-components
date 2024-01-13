@@ -44,3 +44,7 @@ YJ 组件库
   - 表格内嵌搜索条 参数 form 自定义 其中的 items initialValues form(实例)
   - 整体表单组件大换血 之前的items弃用 更改为 在 form属性中传入items (除了Form组件)
   - 新增 upload组件挂在form上 upload含有Image 只用来上传图片 含有属性 avatar 和 isCircle
+
+- v1.0.10
+
+  - 修复 搜索条 报警告bug 紧急修复
