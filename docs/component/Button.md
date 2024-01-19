@@ -50,29 +50,33 @@ const items = {
     createTime: new Date()
   },
   data: [
-    { label: '姓名', name: 'name', element: { type: 'input' } },
+    { label: '姓名', name: 'name' },
     {
       label: '性别',
       name: 'gender',
-      element: {
-        type: 'select',
-        options: [
-          { value: 0, label: '未知' },
-          { value: 1, label: '男' },
-          { value: 2, label: '女' }
-        ],
-        disabled: true
-      }
+      options: [
+        { value: 0, label: '未知' },
+        { value: 1, label: '男' },
+        { value: 2, label: '女' }
+      ]
     }
   ]
 }
 const Index = () => {
   return (
     <Button
-      modal={{ items: items.data, initialValues: items.r }}
+      modal={{
+        title: '详情',
+        form: {
+          items: items.data,
+          initialValues: items.r
+        },
+        children: <button> 1 </button>,
+        // footer: false
+        isM: false
+      }}
       onClick={v => console.log(v)}
       type="link"
-      items={items}
     >
       编辑
     </Button>

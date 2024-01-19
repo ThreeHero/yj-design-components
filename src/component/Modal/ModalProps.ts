@@ -18,4 +18,6 @@ export default interface YJModalProps {
   title?: string | React.ReactNode
   // 完成时候的事件
   onFinish?: (values?: any) => any
+  children?: React.ReactNode
+  footer: any
 }

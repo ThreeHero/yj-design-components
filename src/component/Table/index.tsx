@@ -1,8 +1,8 @@
 import { Table, Tooltip } from 'antd'
 import React, { useState, useEffect, useMemo, useCallback } from 'react'
-import { formatDate } from '../utils/tools'
 import { SearchBar, Form } from '../..'
 import type YJTableProps from './TableProps'
+import { generateColumns } from './generateColumns'
 
 const Index: React.FC<YJTableProps> = props => {
   const {
@@ -12,9 +12,10 @@ const Index: React.FC<YJTableProps> = props => {
     seral,
     rowKey = 'id',
     align = 'center',
-    ellipsis = true,
     style = {},
+    tooltip,
     search,
+    ellipsis = true,
     ...rest
   } = props || {}
 
@@ -55,126 +56,76 @@ const Index: React.FC<YJTableProps> = props => {
     getList()
   }, [])
 
-  // 整理列
-  const c = useMemo(() => {
-    // 序号列
-    if (seral) {
-      columns.unshift({
-        title: seral.title ?? '序号',
-        width: seral.width ?? 100,
-        render: (t, r, i: number) => (
-          <Tooltip
-            placement="top"
-            title={i + 1}
-          >
-            {i + 1}
-          </Tooltip>
-        )
-      })
-    }
-    // 超出隐藏
-    const e = ellipsis
-      ? {
-          ellipsis: {
-            showTitle: false
-          },
-          render: t => (
-            <Tooltip
-              placement="topLeft"
-              title={t}
-            >
-              {t}
-            </Tooltip>
-          )
-        }
-      : {}
-    // 操作列
-    return columns.map(item => {
-      let r = {}
+  const _c = useMemo(() => {
+    return generateColumns(columns, { seral }).columns.map(item => {
+      const { render, ...rest } = item
+      let _render = render
 
-      if (item.formatDate) {
-        const format =
-          typeof item.formatDate === 'string'
-            ? item.formatDate
-            : ((void 0 as any)(r as any).render = t => (
-                <Tooltip
-                  placement="topLeft"
-                  title={formatDate(t, format)}
-                >
-                  {formatDate(t, format)}
-                </Tooltip>
-              ))
+      const isRender = typeof render === 'function'
+
+      if (tooltip && !item.tooltip) {
+        _render = (t: any, r: any, i: number) => {
+          const value = isRender ? render(t, r, i) : t
+          return <Tooltip title={value}>{value}</Tooltip>
+        }
       }
+
       return {
-        ...e,
-        ...item,
         align,
-        title: item.title || item.label || item.text,
-        dataIndex: item.dataIndex || item.name || item.value,
-        ...r
+        ellipsis: ellipsis && {
+          showTitle: false
+        },
+        ...rest,
+        render: _render
       }
     })
-  }, [columns, align, seral, ellipsis])
+  }, [])
 
-  let table = (
-    <Table
-      bordered={bordered}
-      style={{ userSelect: 'none', ...style }}
-      rowKey={rowKey}
-      columns={c}
-      dataSource={list}
-      loading={loading}
-      pagination={{
-        current: page,
-        pageSize: pageSize,
-        total,
-        showSizeChanger: true,
-        showTotal: total => `共 ${total} 条`,
-        onChange: (page, pageSize) => {
-          setPage(page)
-          setPageSize(pageSize)
-        }
-      }}
-      {...rest}
-    />
-  )
+  const searchItems = useMemo(() => {
+    return generateColumns(columns, { seral }).search
+  }, [])
 
-  if (search) {
-    const [form] = Form.useForm()
-    return (
-      <>
+  const [form] = Form.useForm()
+  const { form: searchForm, ...searchRest } = search || {}
+  const { items = [], ...searchFormRest } = searchForm || {}
+
+  return (
+    <>
+      {(search || !!searchItems.length) && (
         <SearchBar
           style={{ marginBottom: 20 }}
-          {...search}
+          form={{
+            items: [...items, ...searchItems],
+            ...searchFormRest
+          }}
+          {...searchRest}
           search={reSearch}
           f={form}
         />
-        <Table
-          bordered={bordered}
-          style={{ userSelect: 'none', ...style }}
-          rowKey={rowKey}
-          columns={c}
-          dataSource={list}
-          loading={loading}
-          pagination={{
-            current: page,
-            pageSize: pageSize,
-            total,
-            showSizeChanger: true,
-            showTotal: total => `共 ${total} 条`,
-            onChange: (page, pageSize) => {
-              setPage(page)
-              setPageSize(pageSize)
-              reSearch(form.getFieldsValue())
-            }
-          }}
-          {...rest}
-        />
-      </>
-    )
-  }
-
-  return table
+      )}
+      <Table
+        bordered={bordered}
+        style={{ userSelect: 'none', ...style }}
+        rowKey={rowKey}
+        columns={_c}
+        dataSource={list}
+        loading={loading}
+        pagination={{
+          current: page,
+          pageSize: pageSize,
+          total,
+          showSizeChanger: true,
+          showTotal: total => `共 ${total} 条`,
+          onChange: (page, pageSize) => {
+            setPage(page)
+            setPageSize(pageSize)
+            reSearch(form.getFieldsValue())
+          }
+        }}
+        {...rest}
+      />
+    </>
+  )
 }
 
 export default Index

@@ -67,10 +67,6 @@ const Index: React.FC<ButtonProps> & {
         <Modal
           isShow={isShow}
           onFinish={onClick}
-          form={{
-            items: m?.items,
-            initialValues: m?.initialValues
-          }}
           {...m}
         />
       </>

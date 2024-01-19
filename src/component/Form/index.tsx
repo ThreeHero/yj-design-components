@@ -128,7 +128,7 @@ const Index: React.FC<YJFormProps> & {
         </Row>
       ) : (
         items?.map((item: any, index: number) => {
-          const { element = '', ...r } = item || {}
+          const { element, ...r } = item || {}
           const isEle = element ? React.isValidElement(element) : false
           let ele = null
           // 如果item中有options 则视为下拉框

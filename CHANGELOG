@@ -48,3 +48,10 @@ YJ 组件库
 - v1.0.10
 
   - 修复 搜索条 报警告bug 紧急修复
+
+
+- v1.0.11
+
+  - 表格列重写 新增 属性 matchOptions, dateFormatter, search, tooltip,
+  - 描述列表重写 items 更新 更换成 columns
+  - 修改按钮弹窗 

@@ -7,34 +7,60 @@ order: 4
 
 ```jsx
 import { Desc } from 'yj-design-components'
+import { Avatar } from 'antd'
 import React from 'react'
 
+const src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQn_8JEBVesEraEHKybTjlYb1EOGn0nX621SpE96CO_Sw&s'
+
 const Index = () => {
-  const titleMap = {
-    id: 'id',
-    username: '用户名',
-    gender: '性别',
-    createTime: '出生日期',
-    pUser: '父级名字'
-  }
-  const map = {
-    gender: [
-      { value: 0, label: '未知' },
-      { value: 1, label: '男' },
-      { value: 2, label: '女' }
-    ],
-    createTime: date => {
-      return date.getFullYear()
+  const columns = [
+    {
+      name: 'src',
+      span: 2,
+      contentStyle: {
+        justifyContent: 'center'
+      },
+      render: (t, r, i) => <Avatar src={t} />
     },
-    pUser: object => {
-      return object.username
+    {
+      title: '用户名',
+      name: 'username'
+    },
+    {
+      title: '性别',
+      name: 'gender',
+      matchOptions: [
+        { value: 0, label: '未知' },
+        { value: 1, label: '男' },
+        { value: 2, label: '女' }
+      ]
+    },
+    {
+      title: '出生日期',
+      name: 'createTime',
+      dateFormatter: true
+    },
+    {
+      title: '父级名字',
+      name: 'pUser',
+      render: (t, r, i) => {
+        return t?.username
+      }
+    },
+    {
+      title: '父级id',
+      name: 'pUser',
+      render: (t, r, i) => {
+        return t?.id
+      }
     }
-  }
-  const r = () => ({
+  ]
+  const data = {
     id: 2,
     username: 'admin',
     gender: 1,
     createTime: new Date(),
+    src: src,
     pUser: {
       id: 1,
       username: 'root',
@@ -42,39 +68,21 @@ const Index = () => {
       createTime: new Date(),
       pUser: null
     }
-  })
+  }
   const request = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        resolve({
-          id: 2,
-          username: 'admin',
-          gender: 1,
-          createTime: new Date(),
-          pUser: {
-            id: 1,
-            username: 'root',
-            gender: 0,
-            createTime: new Date(),
-            pUser: null
-          }
-        })
+        resolve(data)
       }, 1000)
     })
   }
 
-  const addOther = data => {
-    return [{ label: '父级性别', children: data.pUser.gender }]
-  }
-
   return (
     <Desc
-      title="用户"
+      bordered={false}
       column={2}
-      getData={request}
-      titleMap={titleMap}
-      map={map}
-      addOther={addOther}
+      data={data}
+      columns={columns}
     />
   )
 }

@@ -20,6 +20,26 @@ const columns = [
   {
     title: '姓名',
     dataIndex: 'name'
+    // tooltip: true
+  },
+  {
+    title: '日期',
+    dataIndex: 'date',
+    dateFormatter: true,
+    tooltip: true,
+    search: true
+  },
+  {
+    title: '性别',
+    dataIndex: 'gender',
+    tooltip: true,
+    matchOptions: [
+      { label: '男', value: 0 },
+      { label: '女', value: 1 }
+    ],
+    search: {
+      type: 'input'
+    }
   }
 ]
 
@@ -33,7 +53,9 @@ const Index = () => {
           list: [
             {
               id: 1,
-              name: '这里测试超出隐藏这里测试超出隐藏这里测试超出隐藏这里测试超出隐藏这里测试超出隐藏这里测试超出隐藏这里测试超出隐藏这里测试超出隐藏这里测试超出隐藏这里测试超出隐藏'
+              name: '这里测试超出隐藏这里测试超出隐藏这里测试超出隐藏这里测试超出隐藏这里测试超出隐藏这里测试超出隐藏这里测试超出隐藏这里测试超出隐藏这里测试超出隐藏这里测试超出隐藏',
+              date: new Date(),
+              gender: 0
             },
             { id: 2, name: 'b' },
             { id: 3, name: 'c' }
@@ -44,38 +66,6 @@ const Index = () => {
   }
   return (
     <Table
-      search={{
-        form: {
-          items: [
-            {
-              label: '姓名',
-              name: 'name'
-            },
-            {
-              label: '姓名',
-              name: 'name'
-            },
-            {
-              label: '姓名',
-              name: 'name'
-            },
-            {
-              label: '性别',
-              name: 'gender',
-              options: [
-                {
-                  label: '男',
-                  value: 1
-                },
-                {
-                  label: '女',
-                  value: 2
-                }
-              ]
-            }
-          ]
-        }
-      }}
       seral
       rowKey="id"
       bordered

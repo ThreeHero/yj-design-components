@@ -28,4 +28,5 @@ export default interface YJTableProps {
   draggable: boolean
   initParams: object
   onPageChange: ({ page, pageSize }) => void
+  tooltip: boolean
 }

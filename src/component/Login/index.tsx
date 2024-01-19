@@ -3,16 +3,21 @@ import styles from './style.module.less'
 import Form from '../Form'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import './style.less'
-import type YJLoginProp from './LoginProps';
+import type YJLoginProp from './LoginProps'
+import { message } from 'antd'
 
-const Index: React.FC<YJLoginProp> = (props) => {
+const Index: React.FC<YJLoginProp> = props => {
   const { onLogin, background, style, className } = props || {}
   const [form] = Form.useForm()
 
   const login = async () => {
-    const res = await form.validateFields()
-    const { username, password } = res
-    onLogin?.({ username, password })
+    try {
+      const res = await form.validateFields()
+      const { username, password } = res
+      onLogin?.({ username, password })
+    } catch {
+      message.error('请填写用户名或密码')
+    }
   }
 
   const items = [
