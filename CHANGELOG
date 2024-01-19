@@ -55,3 +55,8 @@ YJ 组件库
   - 表格列重写 新增 属性 matchOptions, dateFormatter, search, tooltip,
   - 描述列表重写 items 更新 更换成 columns
   - 修改按钮弹窗 
+
+- v1.0.12
+
+  - 表格描述列表 紧急修复bug
+  - 描述列表 紧急修复bug

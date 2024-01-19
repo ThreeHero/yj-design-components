@@ -27,9 +27,7 @@ const Index: React.FC<YJDescProps> = props => {
     get()
   }, [])
 
-  const _c = useMemo(() => {
-    return generateColumns(columns, data)
-  }, [data])
+  const _c = generateColumns(columns, data)
 
   let desc = (
     <Descriptions

@@ -56,30 +56,28 @@ const Index: React.FC<YJTableProps> = props => {
     getList()
   }, [])
 
-  const _c = useMemo(() => {
-    return generateColumns(columns, { seral }).columns.map(item => {
-      const { render, ...rest } = item
-      let _render = render
+  const _c = generateColumns(columns, { seral }).columns.map(item => {
+    const { render, ...rest } = item
+    let _render = render
 
-      const isRender = typeof render === 'function'
+    const isRender = typeof render === 'function'
 
-      if (tooltip && !item.tooltip) {
-        _render = (t: any, r: any, i: number) => {
-          const value = isRender ? render(t, r, i) : t
-          return <Tooltip title={value}>{value}</Tooltip>
-        }
+    if (tooltip && !item.tooltip) {
+      _render = (t: any, r: any, i: number) => {
+        const value = isRender ? render(t, r, i) : t
+        return <Tooltip title={value}>{value}</Tooltip>
       }
+    }
 
-      return {
-        align,
-        ellipsis: ellipsis && {
-          showTitle: false
-        },
-        ...rest,
-        render: _render
-      }
-    })
-  }, [])
+    return {
+      align,
+      ellipsis: ellipsis && {
+        showTitle: false
+      },
+      ...rest,
+      render: _render
+    }
+  })
 
   const searchItems = useMemo(() => {
     return generateColumns(columns, { seral }).search
