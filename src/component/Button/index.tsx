@@ -24,17 +24,6 @@ const Index: React.FC<ButtonProps> & {
     </Button>
   )
 
-  if (pop) {
-    btn = (
-      <Popover
-        title={children}
-        {...pop}
-      >
-        {btn}
-      </Popover>
-    )
-  }
-
   if (confirm) {
     let config = confirm === true ? {} : confirm
     btn = (
@@ -70,6 +59,17 @@ const Index: React.FC<ButtonProps> & {
           {...m}
         />
       </>
+    )
+  }
+
+  if (pop) {
+    btn = (
+      <Popover
+        title={children}
+        {...pop}
+      >
+        {btn}
+      </Popover>
     )
   }
 

@@ -18,7 +18,7 @@ export function generateColumns(columns, { seral }) {
     const dataIndex = column.dataIndex || column.value || column.name
     const { matchOptions, dateFormatter, render, search, tooltip, ...rest } = column
 
-    let newColumn = column
+    let newColumn = { ...column, title, dataIndex }
 
     if (render && typeof render === 'function') {
       return {

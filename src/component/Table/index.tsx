@@ -1,10 +1,10 @@
 import { Table, Tooltip } from 'antd'
-import React, { useState, useEffect, useMemo, useCallback } from 'react'
+import React, { useState, useEffect, useMemo, useCallback, forwardRef, useImperativeHandle } from 'react'
 import { SearchBar, Form } from '../..'
 import type YJTableProps from './TableProps'
 import { generateColumns } from './generateColumns'
 
-const Index: React.FC<YJTableProps> = props => {
+const Index: React.FC<YJTableProps> = forwardRef((props, ref) => {
   const {
     bordered = true,
     columns = [],
@@ -87,6 +87,13 @@ const Index: React.FC<YJTableProps> = props => {
   const { form: searchForm, ...searchRest } = search || {}
   const { items = [], ...searchFormRest } = searchForm || {}
 
+  useImperativeHandle(ref, () => {
+    return {
+      search: reSearch,
+      ...form
+    }
+  })
+
   return (
     <>
       {(search || !!searchItems.length) && (
@@ -124,6 +131,6 @@ const Index: React.FC<YJTableProps> = props => {
       />
     </>
   )
-}
+})
 
 export default Index
