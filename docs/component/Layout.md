@@ -64,8 +64,9 @@ export default Index
  * hideActions: ["CSB"]
  * iframe: 800
  */
-import { Layout, Table, SearchBar, Button } from 'yj-design-components'
-import { Space } from 'antd'
+import { Layout, Table, SearchBar, Button, Form } from 'yj-design-components'
+import { InfoCircleOutlined, ManOutlined, ReadOutlined, WomanOutlined } from '@ant-design/icons'
+import { Space, Tooltip, InputNumber } from 'antd'
 import React from 'react'
 
 const Index = () => {
@@ -177,18 +178,6 @@ const Index = () => {
   }, [])
   return (
     <Layout slideMenu={slideMenu}>
-      <SearchBar
-        items={[{ name: 'name', label: '姓名' }]}
-        setInitParams={changeParams}
-        extra={[
-          <Button
-            modal
-            items={saveItems}
-          >
-            新增
-          </Button>
-        ]}
-      />
       <Table
         request={request}
         rowKey="id"
@@ -196,6 +185,87 @@ const Index = () => {
         bordered
         draggable
         columns={columns}
+        search={{
+          extra: <Button.Add type="primary">新增</Button.Add>,
+          form: {
+            items: [
+              {
+                name: 'name',
+                label: '名称'
+              },
+              {
+                name: 'gender',
+                label: '性别',
+                options: [
+                  { value: 0, label: '未知' },
+                  {
+                    value: 1,
+                    label: (
+                      <Space>
+                        <ManOutlined />公
+                      </Space>
+                    )
+                  },
+                  {
+                    value: 2,
+                    label: (
+                      <Space>
+                        <WomanOutlined />母
+                      </Space>
+                    )
+                  }
+                ]
+              },
+              {
+                name: 'typeId',
+                label: '类型',
+                options: [
+                  { value: 1, label: '1' },
+                  { value: 2, label: '2' }
+                ]
+              },
+              {
+                name: 'breed',
+                label: '品种'
+              },
+              {
+                label: '年龄',
+                element: (
+                  <Tooltip title="请将年*12转换成月后在筛选">
+                    <Space.Compact>
+                      <Form.Item
+                        name={['age', 'minAge']}
+                        noStyle
+                      >
+                        <InputNumber
+                          style={{ width: '100%' }}
+                          placeholder="最小月份"
+                        />
+                      </Form.Item>
+                      <Form.Item
+                        name={['age', 'maxAge']}
+                        noStyle
+                      >
+                        <InputNumber
+                          style={{ width: '100%' }}
+                          placeholder="最大月份"
+                        />
+                      </Form.Item>
+                    </Space.Compact>
+                  </Tooltip>
+                )
+              },
+              {
+                label: '售卖',
+                name: 'isSell'
+              },
+              {
+                label: '状态',
+                name: 'status'
+              }
+            ]
+          }
+        }}
       />
     </Layout>
   )

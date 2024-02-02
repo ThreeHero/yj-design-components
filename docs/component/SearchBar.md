@@ -8,6 +8,7 @@ order: 5
 ```jsx
 /**
  * hideActions: ["CSB"]
+ * iframe: 800
  */
 import { SearchBar, Button } from 'yj-design-components'
 import React from 'react'
@@ -37,24 +38,16 @@ const items = [
     name: 'gender',
     label: '性别',
     element: {
-      type: 'select',
-      placeholder: '请选择',
-      options: [
-        { value: 1, label: '男' },
-        { value: 2, label: '女' }
-      ]
+      type: 'dateRange',
+      placeholder: '请选择'
     }
   },
   {
     name: 'gender',
     label: '性别',
     element: {
-      type: 'select',
-      placeholder: '请选择',
-      options: [
-        { value: 1, label: '男' },
-        { value: 2, label: '女' }
-      ]
+      type: 'dateRange',
+      placeholder: '请选择'
     }
   }
 ]
@@ -62,7 +55,7 @@ const items = [
 const Index = () => {
   return (
     <SearchBar
-      form={{ items: items, span: 2 }}
+      form={{ items: items }}
       extra={[<Button.Add>新增</Button.Add>]}
       extraIndex="middle"
     />

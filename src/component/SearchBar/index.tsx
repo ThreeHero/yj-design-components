@@ -3,7 +3,7 @@ import { Form, Button } from '../..'
 import { Space, Row, Col } from 'antd'
 import type YJSearchBarProps from './SearchBarProps'
 
-const Index: React.FC<YJSearchBarProps> = (props) => {
+const Index: React.FC<YJSearchBarProps> = props => {
   const { f, form, search, extra, extraIndex = 'after', searchButton, resetButton, style, className } = props || {}
   const [yjForm] = Form.useForm()
   const formInstance = f ?? yjForm
@@ -27,7 +27,11 @@ const Index: React.FC<YJSearchBarProps> = (props) => {
   }
 
   return (
-    <Row style={style} className={className}>
+    <Row
+      wrap={false}
+      style={style}
+      className={className}
+    >
       <Col flex="auto">
         <Form
           form={formInstance}
@@ -43,7 +47,7 @@ const Index: React.FC<YJSearchBarProps> = (props) => {
             <Button.Search
               type="primary"
               children="搜索"
-              {...searchButton || {}}
+              {...(searchButton || {})}
               onClick={YjSearch}
             />
           )}
@@ -51,7 +55,7 @@ const Index: React.FC<YJSearchBarProps> = (props) => {
           {!resetButton?.hidden && (
             <Button.Reload
               children="重置"
-              {...resetButton || {}}
+              {...(resetButton || {})}
               onClick={reset}
             />
           )}
