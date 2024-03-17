@@ -22,7 +22,7 @@ const Index = () => {
       items: [
         {
           label: 'Navigation One',
-          key: 'mail'
+          key: 'Layout-demo'
         },
         {
           label: 'Navigation Two',

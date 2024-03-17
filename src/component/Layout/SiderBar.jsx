@@ -29,6 +29,7 @@ function SiderBar(props) {
       <div className={styles['yj-logo']}>{isFold ? logo.ellipsis : logo.complete}</div>
       <Menu
         mode="inline"
+        defaultSelectedKeys={slideMenu?.items.filter(item => window.location.pathname.includes(item.key))}
         {...slideMenu}
       />
     </Sider>
