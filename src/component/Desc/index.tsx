@@ -6,7 +6,7 @@ import { generateColumns } from './generateColumns'
 const Index: React.FC<YJDescProps> = props => {
   const { bordered = true, request, data: dataSource, columns, ...rest } = props || {}
 
-  const [data, setData] = useState({})
+  const [data, setData] = useState(null)
   const [loading, setLoading] = useState(false)
 
   async function get() {
@@ -27,6 +27,10 @@ const Index: React.FC<YJDescProps> = props => {
     get()
   }, [])
 
+  if (loading || !data) {
+    return <Spin />
+  }
+
   const _c = generateColumns(columns, data)
 
   let desc = (
@@ -37,7 +41,7 @@ const Index: React.FC<YJDescProps> = props => {
     />
   )
 
-  return loading ? <Spin /> : desc
+  return desc
 }
 
 export default Index

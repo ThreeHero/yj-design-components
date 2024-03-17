@@ -19,3 +19,5 @@ export { default as List } from './component/List'
 export { default as App } from './component/App'
 
 export { default as Container } from './component/Container'
+
+export { getUrl, initUpload } from './component/Form/Upload'

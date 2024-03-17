@@ -89,7 +89,9 @@ const Index: React.FC<YJTableProps> = forwardRef((props, ref) => {
 
   useImperativeHandle(ref, () => {
     return {
-      search: reSearch,
+      search: () => {
+        return reSearch(form.getFieldsValue())
+      },
       ...form
     }
   })

@@ -12,13 +12,15 @@ import {
   ColorPicker,
   Button,
   Row,
-  Col
+  Col,
+  Divider
 } from 'antd'
 import Switch from './Switch'
 import Editor from './Editor'
 import Upload from './Upload'
 import type YJFormProps from './FormProps'
-import React from 'react'
+import React, { useState } from 'react'
+import { chunk } from 'lodash'
 
 const FormItem = {
   input: Input,
@@ -45,7 +47,7 @@ const FormItem = {
 }
 
 // 渲染Item
-function createFormItem(element: any) {
+function createFormItem(element: any, name: string) {
   const { type, ...rest } = element || {}
   const Component = FormItem[type]
   const is100 = [
@@ -67,6 +69,7 @@ function createFormItem(element: any) {
   return (
     <Component
       style={is100.includes(type) ? { width: '100%' } : {}}
+      placeholder={name}
       {...rest}
     />
   )
@@ -81,86 +84,109 @@ const Index: React.FC<YJFormProps> & {
   Editor: any
   Upload: any
 } = props => {
-  const { items, form, children, layout, span = 3, ...rest } = props || {}
+  const { items, form, children, layout, span = 1, limit = 1, ...rest } = props || {}
+  const [show, setShow] = useState(false)
+  const chunkItems = chunk(items, span)
 
-  let YjForm = (
+  return (
     <Form
       autoComplete="off"
       form={form}
       layout={layout}
-      labelCol={{ span: 4 }}
-      labelAlign="left"
+      // labelCol={{ span: 4 }}
+      // labelAlign="left"
       {...rest}
     >
-      {layout === 'inline' ? (
-        <Row gutter={[24, 24]}>
-          {items?.map((item: any, index: number) => {
-            const { element, ...r } = item || {}
-            const isEle = React.isValidElement(element)
-            let ele = null
-            // 如果item中有options 则视为下拉框
-            if (r.options) {
-              ele = {
-                type: 'select',
-                options: r.options,
-                allowClear: true
-              }
-            } else {
-              ele = {
-                type: 'input'
-              }
-            }
-            return (
-              <Col
-                span={Math.floor(24 / span)}
-                key={item.name || item.value || item.dataIndex || index}
-              >
-                <Item
-                  {...r}
-                  label={item.title || item.label || item.text}
-                  name={item.name || item.value || item.dataIndex}
-                >
-                  {isEle ? element : createFormItem(element ?? ele)}
-                </Item>
-              </Col>
-            )
-          })}
-        </Row>
-      ) : (
-        items?.map((item: any, index: number) => {
-          const { element, ...r } = item || {}
-          const isEle = element ? React.isValidElement(element) : false
-          let ele = null
-          // 如果item中有options 则视为下拉框
-          if (r.options) {
-            ele = {
-              type: 'select',
-              options: r.options,
-              allowClear: true
-            }
-          } else {
-            ele = {
-              type: 'input'
-            }
-          }
-
-          return (
-            <Item
-              key={item.name || index}
-              {...r}
-              label={item.title || item.label || item.text}
-              name={item.name || item.value || item.dataIndex}
-            >
-              {isEle ? element : createFormItem(element ?? ele)}
-            </Item>
-          )
-        })
+      {children || (
+        <>
+          <Row gutter={30}>
+            {chunkItems.map((itemList: any[], index: number) => {
+              return itemList.map((item, itemIndex) => {
+                const name = item.name || item.value || item.dataIndex || itemIndex
+                const title = item.title || item.label || item.text
+                const { element, ...r } = item || {}
+                const isEle = React.isValidElement(element)
+                let ele = null
+                // 如果item中有options 则视为下拉框
+                if (r.options) {
+                  ele = {
+                    type: 'select',
+                    options: r.options,
+                    allowClear: true
+                  }
+                } else {
+                  ele = {
+                    type: 'input'
+                  }
+                }
+                return (
+                  index < limit && (
+                    <Col
+                      span={r.span ?? Math.floor(24 / span)}
+                      key={name}
+                    >
+                      <Item
+                        {...r}
+                        label={title}
+                        name={name}
+                      >
+                        {isEle ? element : createFormItem(element ?? ele, title)}
+                      </Item>
+                    </Col>
+                  )
+                )
+              })
+            })}
+          </Row>
+          <Row gutter={30}>
+            {chunkItems.map((itemList: any[], index: number) => {
+              return itemList.map((item, itemIndex) => {
+                const name = item.name || item.value || item.dataIndex || itemIndex
+                const title = item.title || item.label || item.text
+                const { element, ...r } = item || {}
+                const isEle = React.isValidElement(element)
+                let ele = null
+                // 如果item中有options 则视为下拉框
+                if (r.options) {
+                  ele = {
+                    type: 'select',
+                    options: r.options,
+                    allowClear: true
+                  }
+                } else {
+                  ele = {
+                    type: 'input'
+                  }
+                }
+                return (
+                  index >= limit &&
+                  show && (
+                    <Col
+                      span={r.span ?? Math.floor(24 / span)}
+                      key={name}
+                    >
+                      <Item
+                        {...r}
+                        label={title}
+                        name={name}
+                      >
+                        {isEle ? element : createFormItem(element ?? ele, title)}
+                      </Item>
+                    </Col>
+                  )
+                )
+              })
+            })}
+          </Row>
+          {chunkItems?.length > limit && (
+            <Divider>
+              <Button onClick={() => setShow(h => !h)}>{show ? '收起' : '展开'}</Button>
+            </Divider>
+          )}
+        </>
       )}
-      {!items && children}
     </Form>
   )
-
-  return YjForm
 }
 
 Index.useForm = Form.useForm

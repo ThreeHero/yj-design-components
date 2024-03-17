@@ -123,6 +123,7 @@ const Index = () => {
       {
         value: 'uploadImg',
         label: '上传图片',
+        span: 24,
         element: {
           type: 'uploadImg',
           avatar: true,
@@ -133,6 +134,7 @@ const Index = () => {
       {
         name: 'editor',
         text: '编辑器',
+        span: 24,
         element: {
           type: 'editor'
           // placeholder: '输入'
@@ -142,9 +144,9 @@ const Index = () => {
   }, [])
   return (
     <Form
+      span={3}
       form={form}
       items={items}
-      span={3}
     />
   )
 }

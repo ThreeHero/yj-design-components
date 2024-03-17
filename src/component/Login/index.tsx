@@ -69,6 +69,7 @@ const Index: React.FC<YJLoginProp> = props => {
         <Form
           items={items}
           form={form}
+          limit={3}
           className={styles['login-form']}
         />
       </div>

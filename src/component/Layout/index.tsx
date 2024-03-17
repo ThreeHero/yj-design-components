@@ -7,7 +7,7 @@ import Content from './ContentBox'
 
 import type YJLayoutProps from './LayoutProps'
 
-const Index: React.FC<YJLayoutProps> = (props) => {
+const Index: React.FC<YJLayoutProps> = props => {
   const {
     bgColor = '#fff',
     color = '#000',
@@ -32,8 +32,9 @@ const Index: React.FC<YJLayoutProps> = (props) => {
   }, [])
 
   return (
-    <Layout className={styles['yj-layout']} {...rest}>
+    <Layout className={styles['yj-layout']}>
       <Sider
+        {...rest}
         {...params}
         isFold={isFold}
         logo={logo}

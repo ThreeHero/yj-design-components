@@ -64,6 +64,7 @@ const Index: React.FC<YJModalProps> = props => {
         <Form
           form={YjForm}
           preserve={false}
+          limit={9999}
           {...(form || {})}
         />
       )}

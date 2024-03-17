@@ -52,7 +52,7 @@ const Upload = props => {
 
 // 上传图片组件
 const UploadImg = props => {
-  const { value, children, avatar, isCircle, ...rest } = props || {}
+  const { value, children, avatar = true, isCircle, ...rest } = props || {}
 
   const beforeUpload = file => {
     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
@@ -98,14 +98,23 @@ const UploadImg = props => {
   )
 }
 
+export function initUpload(url, prefixPath = 'http://127.0.0.1:9000') {
+  return [
+    {
+      uid: -1,
+      name: 'img.png',
+      url: prefixPath + url
+    }
+  ]
+}
+
 /**
  * 将url去掉特定的前缀
  * @param {string} url 整体的url
  * @param {string} prefixPath 需要去掉的前缀
  * @returns {string}
  */
-function getUrl(url, prefixPath) {
-  if (!prefixPath) return url
+export function getUrl(url, prefixPath = 'http://127.0.0.1:9000') {
   if (url.includes(prefixPath)) {
     return url.split(prefixPath)[1]
   }
@@ -113,5 +122,4 @@ function getUrl(url, prefixPath) {
 }
 
 Upload.Image = UploadImg
-Upload.getUrl = getUrl
 export default Upload

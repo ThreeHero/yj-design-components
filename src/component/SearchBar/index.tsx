@@ -31,13 +31,17 @@ const Index: React.FC<YJSearchBarProps> = props => {
       wrap={false}
       style={style}
       className={className}
+      gutter={30}
     >
       <Col flex="auto">
         <Form
           form={formInstance}
+          span={3}
+          labelCol={{ span: 4 }}
+          labelAlign="left"
           {...form}
-          layout="inline"
-          style={{ ...(form?.style || {}), display: 'block' }}
+          // layout="inline"
+          // style={{ ...(form?.style || {}), display: 'block' }}
         />
       </Col>
       <Col>
