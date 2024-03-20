@@ -58,6 +58,7 @@ const Index = () => {
               gender: 0
             },
             { id: 2, name: 'b' },
+            { id: 3, name: 'c' },
             { id: 3, name: 'c' }
           ]
         })
@@ -71,95 +72,6 @@ const Index = () => {
       bordered
       request={request}
       columns={columns}
-    />
-  )
-}
-
-export default Index
-```
-
-```jsx
-/**
- * hideActions: ["CSB"]
- */
-
-import { Table } from 'yj-design-components'
-import React from 'react'
-import { Switch } from 'antd'
-
-const Index = () => {
-  const ref = React.useRef()
-
-  const changeStatus = (id, status) => {
-    window
-      .fetch('http://localhost:9000/maintenanceWorker/status', {
-        method: 'put',
-        body: JSON.stringify({ id, status }),
-        headers: {
-          'Content-Type': 'application/json',
-          No_auth: 'YES'
-        }
-      })
-      .then(res => {
-        return res.json()
-      })
-      .then(r => {
-        ref.current.search()
-      })
-  }
-
-  const request = params => {
-    return window
-      .fetch('http://localhost:9000/maintenanceWorker/list?page=1&pageSize=10', {
-        method: 'get',
-        headers: {
-          'Content-Type': 'application/json',
-          No_auth: 'YES'
-        }
-      })
-      .then(res => res.json())
-      .then(response => {
-        return response.data
-      })
-  }
-
-  const columns = [
-    {
-      title: '账号',
-      dataIndex: 'username'
-    },
-    {
-      label: '状态',
-      name: 'status',
-      render: (val, r, i) => {
-        // 这里 不要使用 受控
-        return (
-          <Switch
-            value={val}
-            checkedChildren="正常"
-            unCheckedChildren="禁用"
-            onChange={async v => {
-              await changeStatus(r.id, v)
-            }}
-          />
-        )
-      }
-    }
-  ]
-
-  return (
-    <Table
-      columns={columns}
-      request={request}
-      ref={ref}
-      search={{
-        form: {
-          items: [
-            { title: '姓名', name: 'realName' },
-            { title: '手机号', name: 'phone' }
-          ]
-        }
-      }}
     />
   )
 }

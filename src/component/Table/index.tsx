@@ -47,14 +47,17 @@ const Index: React.FC<YJTableProps> = forwardRef((props, ref) => {
   )
 
   // 重新加载
-  const reSearch = useCallback((params: any) => {
-    getList(params)
-  }, [])
+  const reSearch = useCallback(
+    (params: any) => {
+      getList({ ...params, page, pageSize })
+    },
+    [page, pageSize]
+  )
 
   // 初始请求数据
   useEffect(() => {
     getList()
-  }, [page, pageSize])
+  }, [])
 
   const _c = generateColumns(columns, { seral }).columns.map(item => {
     const { render, ...rest } = item
