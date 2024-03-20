@@ -49,15 +49,15 @@ const Index: React.FC<YJTableProps> = forwardRef((props, ref) => {
   // 重新加载
   const reSearch = useCallback(
     (params: any) => {
-      getList({ ...params, page, pageSize })
+      getList(params)
     },
     [page, pageSize]
   )
 
   // 初始请求数据
   useEffect(() => {
-    getList()
-  }, [])
+    getList(form.getFieldsValue())
+  }, [page, pageSize])
 
   const _c = generateColumns(columns, { seral }).columns.map(item => {
     const { render, ...rest } = item
@@ -129,7 +129,6 @@ const Index: React.FC<YJTableProps> = forwardRef((props, ref) => {
           onChange: (page, pageSize) => {
             setPage(page)
             setPageSize(pageSize)
-            reSearch(form.getFieldsValue())
           }
         }}
         {...rest}
